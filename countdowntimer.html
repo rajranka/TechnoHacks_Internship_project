@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopWatch Web Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        .wrapper {
+            text-align: center;
+            background-color: #262626;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .time {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .buttons button {
+            font-size: 1.2em;
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #45a049;
+        }
+
+        #lapRecord {
+            font-size: 1.2em;
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="time" id="display">00:00:00</div>
+        <div class="buttons">
+            <button class="start" onclick="start()">Start</button>
+            <button class="pause" onclick="pause()">Pause</button>
+            <button class="lap" onclick="lap()">Lap</button>
+            <button class="reset" onclick="reset()">Reset</button>
+        </div>
+        <div id="laps">
+            <p id="lapRecord"></p>
+        </div>
+    </div>
+
+    <script>
+        let hr = min = sec = ms = 0;
+        let timer;
+        let laps = [];
+
+        function start() {
+            clearInterval(timer);
+            timer = setInterval(updateTime, 10);
+        }
+
+        function pause() {
+            clearInterval(timer);
+        }
+
+        function reset() {
+            clearInterval(timer);
+            hr = min = sec = ms = 0;
+            updateTime();
+            laps = [];
+            updateLaps();
+        }
+
+        function lap() {
+            let lapTime = formatTime(hr) + ':' + formatTime(min) + ':' + formatTime(sec) + '.' + formatMs(ms);
+            laps.push(lapTime);
+            updateLaps();
+        }
+
+        function updateTime() {
+            ms++;
+            if (ms === 100) {
+                ms = 0;
+                sec++;
+                if (sec === 60) {
+                    sec = 0;
+                    min++;
+                    if (min === 60) {
+                        min = 0;
+                        hr++;
+                    }
+                }
+            }
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('display').textContent = formatTime(hr) + ':' + formatTime(min) + ':' + formatTime(sec) + '.' + formatMs(ms);
+        }
+
+        function updateLaps() {
+            let lapsContainer = document.getElementById('lapRecord');
+            lapsContainer.innerHTML = '';
+            for (let i = 0; i < laps.length; i++) {
+                let lapItem = document.createElement('p');
+                lapItem.textContent = 'Lap ' + (i + 1) + ': ' + laps[i];
+                lapsContainer.appendChild(lapItem);
+            }
+        }
+
+        function formatTime(time) {
+            return time < 10 ? '0' + time : time;
+        }
+
+        function formatMs(milliseconds) {
+            if (milliseconds < 10) {
+                return '00' + milliseconds;
+            } else if (milliseconds < 100) {
+                return '0' + milliseconds;
+            } else {
+                return milliseconds;
+            }
+        }
+    </script>
+
+</html>

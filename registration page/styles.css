@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: rgb(222, 219, 15);
+}
+
+.container {
+    width: 300px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #1bc921;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
